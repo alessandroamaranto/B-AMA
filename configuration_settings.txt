@@ -1,0 +1,11 @@
+[Case_study]
+name = Rhine
+
+[Data_prop]
+period = 365		
+start = 2008
+end = 2014
+
+[ddm]
+model = svm
+
