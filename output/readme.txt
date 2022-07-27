@@ -1,0 +1,1 @@
+In the output folder (currently empty) will be saved all the modeling output produced by B-AMA
