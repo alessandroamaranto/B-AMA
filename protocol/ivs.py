@@ -10,6 +10,7 @@ import os
 import math
 import numpy.matlib
 import configparser
+import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 from hydroeval import evaluator, nse
 from sklearn.svm import SVR
