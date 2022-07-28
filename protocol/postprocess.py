@@ -71,7 +71,7 @@ class postprocess():
         df = pd.DataFrame(data = d)
         
         # Save output
-        fn = self.output_name + '_' + str(i) + model + 'csv'
+        fn = self.output_name + '_' + str(i) + model + '.csv'
         fs = os.path.join('output', case_study, fn)
         
         df.to_csv(fs, index = False)
