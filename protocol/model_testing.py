@@ -113,7 +113,7 @@ class model_testing():
         return(yc_theta, yv_theta)
     
         
-    def test_model(self, ms, cn, vn, column_index, mn, mX, period):
+    def test_model(self, ms, cn, vn, column_index, mn, mX, model, period):
         
         """
         test_model(self, ms, cn, vn, column_index, mn, mX, period)
@@ -150,8 +150,23 @@ class model_testing():
         # Perform ensamble prediction
         for j in range(0, len(ms)):
             
-            y_theta_v[:, j] = ms[j].predict(xv)
-            y_theta_c[:, j] = ms[j].predict(xc)
+            if model == 'ann' or model == 'svm': 
+            
+                y_theta_v[:, j] = ms[j].predict(xv)
+                y_theta_c[:, j] = ms[j].predict(xc)
+                
+            else:
+                try:
+                    modulename = model + '_module'
+                    new_module = __import__(modulename)
+                    
+                    y_theta_v[:, j] = new_module.test_module(ms[j], xv)
+                    y_theta_c[:, j] = new_module.test_module(ms[j], xc)
+                    
+                except:
+                    
+                    raise ValueError('No module for model' + model + 'specified')
+                
             
         # Aggregate the forecast
         y_ext_v = np.mean(y_theta_v, axis = 1)

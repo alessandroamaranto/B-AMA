@@ -117,6 +117,7 @@ class B_AMA():
                                                                                      column_index[i],
                                                                                      mn,
                                                                                      mX,
+                                                                                     self.model,
                                                                                      self.period)
             
             # Save the forecasts and plot the results
@@ -135,10 +136,13 @@ class B_AMA():
         results.columns_selected = column_index
         results.models = ms
         
-        # Save as pkl element
-        fpt = os.path.join('output', self.case_study, 'results.pkl')
-        with open(fpt, 'wb') as f:
-            dill.dump(results, f)
+        try:
+            # Save as pkl element
+            fpt = os.path.join('output', self.case_study, 'results.pkl')
+            with open(fpt, 'wb') as f:
+                dill.dump(results, f)
+        except:
+            print('The selected module does not allow to save as pkl')
 
         # Return
         return(results)

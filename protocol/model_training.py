@@ -81,7 +81,25 @@ class model_training():
                 hyper_param.append(element)
         
         else:
-            raise ValueError("model should be either svm or ann")
+            
+            try:
+                Config.read(os.path.join('protocol', model + '_module_config.txt'))
+                n_param = int(Config.get('dimensionality', 'n_param'))
+                
+                ls = []
+                for c in range(n_param):
+                    p_name = 'p' + str(c)
+                    ls.append(np.array([e.strip() for e in Config.get('param_values', p_name).split(',')]).tolist())
+                
+                hyper_param = []
+                
+                for element in itertools.product(*ls):
+                    hyper_param.append(element)
+                    
+                    
+                
+            except:
+                print('warning, no model-specific configuration settings file specified')
         
         return(hyper_param)
             
@@ -140,6 +158,8 @@ class model_training():
                         cache_size=200,
                         verbose=False,
                         max_iter=-1)
+                models_node[f] = ddm.fit(x_tr, y_tr)
+                y_theta = models_node[f].predict(x_cv)
             
             elif model == 'ann':
                 
@@ -149,12 +169,21 @@ class model_training():
                                   max_iter = int(hp[2]),
                                   alpha = float(hp[3])
                                 )
+                models_node[f] = ddm.fit(x_tr, y_tr)
+                y_theta = models_node[f].predict(x_cv)
             else:
-                raise ValueError("model must be either svm or ann")
+                try:
+                    modulename = model + '_module'
+                    new_module = __import__(modulename)
+                    
+                    models_node[f], y_theta = new_module.train_module(x_tr, x_cv, y_tr, hp)
+                    
+                except:
+                    
+                    raise ValueError('No module for model' + model + 'specified')
                 
             # Compute the error in each fold
-            models_node[f] = ddm.fit(x_tr, y_tr)
-            y_theta = models_node[f].predict(x_cv)
+            
             errors_node[f] = math.sqrt(mean_squared_error(y_theta, y_cv))
             
         
