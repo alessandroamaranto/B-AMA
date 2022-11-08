@@ -83,12 +83,15 @@ def plot_ivs_forward(pg, i_s, perf, case_study):
     output_name = str(Config.get('Case_study','name'))             # Case study name
     
     pg[pg<0] = 0
-    fig, ax = plt.subplots(2, 1, figsize = (10,7))
+    fig, ax = plt.subplots(1, 2, figsize = (18,7), gridspec_kw={'width_ratios': [2.5, 1]}) 
+
     sc = ax[0].imshow(pg, cmap='viridis', interpolation='nearest')
-    cax = fig.add_axes([ax[0].get_position().x1+0.01,ax[0].get_position().y0,0.02,ax[0].get_position().height])
-    cb = fig.colorbar(sc, cax = cax)
+    #cax = fig.add_axes([ax[0].get_position().x1+0.01,ax[0].get_position().y0,0.02,ax[0].get_position().height])
+    cb = fig.colorbar(sc, ax = ax[0], location = 'bottom', shrink = 0.6)
     ax[0].set_xlabel('Input column', fontsize = 18)
     ax[0].set_ylabel('Iteration', fontsize = 18)
+    ax[0].set_yticks(np.arange(pg.shape[0]), np.arange(pg.shape[0]) )
+
     cb.set_label('NSE [-]')
     ax[0].set_title('Forward input selection results', fontsize = 20)
     
@@ -97,6 +100,8 @@ def plot_ivs_forward(pg, i_s, perf, case_study):
     # Save
     fn = output_name + '_ivs_forward'   + '.png'
     fs = os.path.join(output_location, case_study, fn)
+    
+    plt.subplots_adjust(wspace = 0.15)
     
     
     
@@ -155,12 +160,14 @@ def plot_improvement(i_s, perf, case_study):
 
 def plot_improvement_bar(i_s, perf, ax):
     
+    is_l = i_s
     i_s = ['{:.2f}'.format(x) for x in i_s]
     
     ax.bar(i_s, perf, width = 0.4)
     ax.plot(i_s, perf, color = 'black',  linewidth=2)
     
     ax.set_xlabel('Input column', fontsize = 18)
+    ax.set_xticks(i_s, np.array(is_l).astype(int).astype(str))
     ax.set_ylabel('NSE [-]', fontsize = 18)
     #ax.set_title('Cross-validation performance improvements ', fontsize = 18)
     

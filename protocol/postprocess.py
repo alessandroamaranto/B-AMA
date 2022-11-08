@@ -117,7 +117,7 @@ class postprocess():
             raise ValueError("system periodiciti not included")
         
         # Initialize the plot
-        fig, ax = plt.subplots(constrained_layout=True, figsize=(8,6))
+        fig, ax = plt.subplots(constrained_layout=True, figsize=(16, 6))
         
         xlb = 'Time (' + step + ')'
         
@@ -128,8 +128,8 @@ class postprocess():
         ax.plot(x, yr, label = 'Predicted', color = '#FF0075')
         
         # Scatter
-        ax.scatter(x[cs.astype(int)], yr[cs.astype(int)], label = 'Calibration', color = '#69DADB')
-        ax.scatter(x[vs.astype(int)], yr[vs.astype(int)], label = 'Validation', color = '#FEE440')
+        ax.scatter(x[cs.astype(int)], yr[cs.astype(int)], label = 'Training', color = '#69DADB')
+        ax.scatter(x[vs.astype(int)], yr[vs.astype(int)], label = 'Test', color = '#FEE440')
         
         # Legend
         ax.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc='lower left', ncol=4, mode="expand", borderaxespad=0.)
@@ -141,7 +141,7 @@ class postprocess():
         
         # Adjust graphics
         ax.set_xlabel(xlb, fontsize = 20)
-        ax.set_ylabel('y', fontsize = 20)
+        ax.set_ylabel('Discharge $[m^3s^{-1}]$', fontsize = 20)
         
         ax.autoscale(enable=True, axis='x', tight=True)
         
@@ -166,7 +166,7 @@ class postprocess():
         
     def plot_scatter(self, yr, yo, vs, cs, model, case_study):
         
-        fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(12,6))
+        fig, ax = plt.subplots(1, 2, constrained_layout=True, figsize=(16,6))
         
         X = np.vstack([yr, yo])
         lb = np.min(X)
@@ -175,24 +175,24 @@ class postprocess():
         ax[0].scatter(yo[cs.astype(int)], yr[cs.astype(int)], color = '#69DADB', alpha = 0.8)
         ax[0].plot(np.arange(lb, ub + 1), np.arange(lb, ub + 1))
         # Adjust graphics
-        ax[0].set_xlabel('Observed', fontsize = 18)
-        ax[0].set_ylabel('Predicted', fontsize = 18)
+        ax[0].set_xlabel('Observed $[m^3s^{-1}]$', fontsize = 18)
+        ax[0].set_ylabel('Predicted $[m^3s^{-1}]$', fontsize = 18)
         ax[0].set_title('Training set', fontsize = 20)
         ax[0].set_xlim(lb, ub)
         ax[0].set_ylim(lb, ub)
         tx = 'NSE = ' + str(np.round(evaluator(nse, yr[cs.astype(int)], yo[cs.astype(int)])[0], 1))
-        ax[0].text(lb, ub-0.03*ub, tx, fontsize = 16, weight = 'bold')
+        ax[0].text(lb, ub-0.045*ub, tx, fontsize = 16, weight = 'bold')
         
         ax[1].scatter(yo[vs.astype(int)], yr[vs.astype(int)], color = '#FEE440', alpha = 0.8)
         ax[1].plot(np.arange(lb, ub + 1), np.arange(lb, ub + 1))
-        ax[1].set_xlabel('Observed', fontsize = 18)
-        ax[1].set_ylabel('Predicted', fontsize = 18)
+        ax[1].set_xlabel('Observed $[m^3s^{-1}]$', fontsize = 18)
+        ax[1].set_ylabel('Predicted $[m^3s^{-1}]$', fontsize = 18)
         ax[1].set_title('Test set', fontsize = 20)
         ax[1].set_xlim(lb, ub)
         ax[1].set_ylim(lb, ub)
         
         tx = 'NSE = ' + str(np.round(evaluator(nse, yr[vs.astype(int)], yo[vs.astype(int)])[0], 1))
-        ax[1].text(lb, ub-0.03*ub, tx, fontsize = 16, weight = 'bold')
+        ax[1].text(lb, ub-0.045*ub, tx, fontsize = 16, weight = 'bold')
         
         
         fn = self.output_name + '_scatter_'  + model + '.png'
