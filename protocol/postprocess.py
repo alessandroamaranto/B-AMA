@@ -141,7 +141,7 @@ class postprocess():
         
         # Adjust graphics
         ax.set_xlabel(xlb, fontsize = 20)
-        ax.set_ylabel('Discharge $[m^3s^{-1}]$', fontsize = 20)
+        ax.set_ylabel('Discharge', fontsize = 20)
         
         ax.autoscale(enable=True, axis='x', tight=True)
         
@@ -175,8 +175,8 @@ class postprocess():
         ax[0].scatter(yo[cs.astype(int)], yr[cs.astype(int)], color = '#69DADB', alpha = 0.8)
         ax[0].plot(np.arange(lb, ub + 1), np.arange(lb, ub + 1))
         # Adjust graphics
-        ax[0].set_xlabel('Observed $[m^3s^{-1}]$', fontsize = 18)
-        ax[0].set_ylabel('Predicted $[m^3s^{-1}]$', fontsize = 18)
+        ax[0].set_xlabel('Observed', fontsize = 18)
+        ax[0].set_ylabel('Predicted', fontsize = 18)
         ax[0].set_title('Training set', fontsize = 20)
         ax[0].set_xlim(lb, ub)
         ax[0].set_ylim(lb, ub)
@@ -185,8 +185,8 @@ class postprocess():
         
         ax[1].scatter(yo[vs.astype(int)], yr[vs.astype(int)], color = '#FEE440', alpha = 0.8)
         ax[1].plot(np.arange(lb, ub + 1), np.arange(lb, ub + 1))
-        ax[1].set_xlabel('Observed $[m^3s^{-1}]$', fontsize = 18)
-        ax[1].set_ylabel('Predicted $[m^3s^{-1}]$', fontsize = 18)
+        ax[1].set_xlabel('Observed', fontsize = 18)
+        ax[1].set_ylabel('Predicted', fontsize = 18)
         ax[1].set_title('Test set', fontsize = 20)
         ax[1].set_xlim(lb, ub)
         ax[1].set_ylim(lb, ub)
