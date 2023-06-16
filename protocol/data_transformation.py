@@ -27,7 +27,8 @@ class data_transformation():
         Config.read(os.path.join('protocol', 'advanced_configurations.txt'))
                 
         self.mode = str(Config.get('Data_Transformation','mode')) # user-defined transformation 
-        
+        self.ma_f = str(Config.get('Data_Transformation','ma_f')) # user-defined transformation
+
     def normalize(self, c, v):
         
         """
@@ -160,8 +161,8 @@ class data_transformation():
             ci = c_trunc[:, i]
             
             # Compute ciclostazionary moving average and variance
-            uc, uci = self.moving_average(ci, nY, 10, period)
-            var_c, var_ci = self.moving_average( np.power(ci-uci, 2), nY, 10, period)
+            uc, uci = self.moving_average(ci, nY, self.ma_f, period)
+            var_c, var_ci = self.moving_average( np.power(ci-uci, 2), nY, self.ma_f, period)
             
             var_c = np.sqrt(var_c)
             

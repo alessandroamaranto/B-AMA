@@ -4,6 +4,7 @@ split_period: 0
 
 [Data_Transformation]
 mode = min_max										
+ma_f = 10
 
 [IVS]
 ivs_method = forward_selection					
