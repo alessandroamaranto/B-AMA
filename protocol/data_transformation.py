@@ -27,7 +27,7 @@ class data_transformation():
         Config.read(os.path.join('protocol', 'advanced_configurations.txt'))
                 
         self.mode = str(Config.get('Data_Transformation','mode')) # user-defined transformation 
-        self.ma_f = str(Config.get('Data_Transformation','ma_f')) # user-defined transformation
+        self.ma_f = int(Config.get('Data_Transformation','ma_f')) # user-defined transformation
 
     def normalize(self, c, v):
         
