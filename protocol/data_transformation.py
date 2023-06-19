@@ -155,10 +155,6 @@ class data_transformation():
         # Allocate memory for de-seasonalized test set
         v_s = np.ndarray(shape = v.shape)
 
-        # compute minimum and maximum of each column
-        mn = []
-        mX = []
-
         # De-seasonalize each column
         for i in range(0, c_trunc.shape[1]):
             
@@ -167,8 +163,6 @@ class data_transformation():
             # Compute ciclostazionary moving average and variance
             uc, uci = self.moving_average(ci, nY, self.ma_f, period)
             var_c, var_ci = self.moving_average( np.power(ci-uci, 2), nY, self.ma_f, period)
-            mn.append(uc)
-            mX.append(var_c)
 
             var_c = np.sqrt(var_c)
             
@@ -190,7 +184,7 @@ class data_transformation():
             v_s[:, i] = (v[:, i] - uv)/var_v
             v_s[:, i][np.isnan(v_s[:, i])] = 0
 
-        return(c_s, v_s, mn, mX)
+        return(c_s, v_s, uc, var_c)
         
    
     
