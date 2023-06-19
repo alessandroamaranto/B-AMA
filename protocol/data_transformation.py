@@ -27,7 +27,8 @@ class data_transformation():
         Config.read(os.path.join('protocol', 'advanced_configurations.txt'))
                 
         self.mode = str(Config.get('Data_Transformation','mode')) # user-defined transformation 
-        
+        self.ma_f = int(Config.get('Data_Transformation','ma_f')) # user-defined transformation
+
     def normalize(self, c, v):
         
         """
@@ -153,16 +154,16 @@ class data_transformation():
         
         # Allocate memory for de-seasonalized test set
         v_s = np.ndarray(shape = v.shape)
-        
+
         # De-seasonalize each column
         for i in range(0, c_trunc.shape[1]):
             
             ci = c_trunc[:, i]
             
             # Compute ciclostazionary moving average and variance
-            uc, uci = self.moving_average(ci, nY, 10, period)
-            var_c, var_ci = self.moving_average( np.power(ci-uci, 2), nY, 10, period)
-            
+            uc, uci = self.moving_average(ci, nY, self.ma_f, period)
+            var_c, var_ci = self.moving_average( np.power(ci-uci, 2), nY, self.ma_f, period)
+
             var_c = np.sqrt(var_c)
             
             # Concatenate for the extra days
@@ -170,8 +171,10 @@ class data_transformation():
             var_ci = ut.concat_ciclo(var_c, nY, ex)
             
             # Normalize data
+            np.seterr(invalid='ignore')
             c_s[:, i] = (c[:, i] - uc_i)/var_ci
-            
+            c_s[:, i][np.isnan(c_s[:, i])] = 0
+
             # Concatenate for the extra days in the test set (using cyclo mean 
             # and variance computed in the training set)
             uv = ut.concat_ciclo(uc, nY_v, ex_v)
@@ -179,7 +182,8 @@ class data_transformation():
             
             # Transform test set
             v_s[:, i] = (v[:, i] - uv)/var_v
-        
+            v_s[:, i][np.isnan(v_s[:, i])] = 0
+
         return(c_s, v_s, uc, var_c)
         
    
