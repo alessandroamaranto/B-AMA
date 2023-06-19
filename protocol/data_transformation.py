@@ -171,8 +171,10 @@ class data_transformation():
             var_ci = ut.concat_ciclo(var_c, nY, ex)
             
             # Normalize data
+            np.seterr(invalid='ignore')
             c_s[:, i] = (c[:, i] - uc_i)/var_ci
-            
+            c_s[:, i][np.isnan(c_s[:, i])] = 0
+
             # Concatenate for the extra days in the test set (using cyclo mean 
             # and variance computed in the training set)
             uv = ut.concat_ciclo(uc, nY_v, ex_v)
@@ -182,6 +184,7 @@ class data_transformation():
             v_s[:, i] = (v[:, i] - uv)/var_v
         
         return(c_s, v_s, uc, var_c)
+            v_s[:, i][np.isnan(v_s[:, i])] = 0
         
    
     
