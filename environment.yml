@@ -1,0 +1,15 @@
+name: b_ama_envir
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  - dill
+  - matplotlib
+  - numpy
+  - pandas
+  - scipy
+  - seaborn
+  - scikit-learn
+  - pip:
+    - hydroeval
