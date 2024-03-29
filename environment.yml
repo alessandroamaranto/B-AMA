@@ -1,9 +1,15 @@
-name: b_ama_envir
+name: B_AMA
 channels:
   - defaults
 dependencies:
   - python=3.8
   - pip
+  - jupyter
+  - ipykernel
+  - nbconvert
+  - nbformat
+  - notebook
+  - jupyterlab
   - dill
   - matplotlib
   - numpy
