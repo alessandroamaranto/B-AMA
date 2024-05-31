@@ -319,7 +319,7 @@ class input_variable_selection():
             i_s = self.ivs_exhaustive_search(cn, case_study)
         
         else:
-            raise ValueError("ivs_mode should be among correlation, forward_selection and exhaustive")
+            i_s = np.arange(cn.shape[1]-1)
             
         return(i_s)
     

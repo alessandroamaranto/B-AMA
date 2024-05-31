@@ -17,5 +17,7 @@ dependencies:
   - scipy
   - seaborn
   - scikit-learn
+  - keras
+  - tensorflow
   - pip:
     - hydroeval
