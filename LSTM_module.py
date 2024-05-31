@@ -9,6 +9,7 @@ Created on Fri Oct 21 16:42:20 2022
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
+import numpy as np
 
 
 def train_module(x_tr, x_cv, y_tr, hp):
@@ -30,10 +31,14 @@ def train_module(x_tr, x_cv, y_tr, hp):
         - yh = prediction on the cross-validation set [n_cv_instances]
     """
     
-    
+    # Add parameters for dataset shape
+    n_vars = 6 # Update according to case study
+    n_lags = 3 # Update according to case study
+
+
     # Reshaping the data in the LSTM input format (n_instances, 1, n_features)
-    x_tr = x_tr.reshape((x_tr.shape[0], 1, x_tr.shape[1]))
-    x_cv = x_cv.reshape((x_cv.shape[0], 1, x_cv.shape[1]))
+    x_tr = np.reshape(x_tr,  newshape = (-1, n_lags, n_vars), order = 'F')
+    x_cv = np.reshape(x_cv,  newshape = (-1, n_lags, n_vars), order = 'F')
 
     # Define the new model
     new_model = Sequential()
@@ -62,9 +67,13 @@ def test_module(m, x):
     Returns:
         - y = normalized test set output [n_test_instances, ]
     """
-    
+    # Add parameters for dataset shape
+    n_vars = 6 # Update according to case study
+    n_lags = 3 # Update according to case study
+
     # Reshaping the data in the LSTM input format (n_instances, 1, n_features)
-    x = x.reshape((x.shape[0], 1, x.shape[1]))
+    x = np.reshape(x,  newshape = (-1, n_lags, n_vars), order = 'F')
+
     # Perform the forecast
     y = m.predict(x)
     
