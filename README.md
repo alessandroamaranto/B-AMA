@@ -9,19 +9,24 @@ B-AMA simplifies the process of applying data-driven models to hydrological prob
 1. **Installation**: Start by installing all the required libraries using the provided `environment.yml` file. Run the following command in your terminal:
 ```
 conda env create -f environment.yml
-conda activate b_ama_envir
+conda activate B_AMA
 ```
 This will create a Conda environment and activate it.
 
 2. **Loading Data**: Place your input data in the `input/case_study` folder. Ensure that the dependent variable is in the last column of your CSV file.
 
-3. **Define Settings**: Specify the settings in the configuration file. Required information includes the case study name, the periodicity of the variable to be forecasted, the initial and final years with observations, and the modeling techniques to be used.
+3. **Define Settings**: Specify the settings in the configuration file. Required information includes the case study name, the periodicity of the variable to be forecasted, the initial and final years with observations, and the modeling techniques to be used. You can specify your own configurations in protocol/advanced_configurations.txt
 
 4. **Run the Protocol**: Open the Anaconda Prompt terminal, navigate to the B-AMA folder, and run the following command:
 ```
 python ddm_run.py
 ```
 Alternatively, you can run the `ddm_run.py` script directly from Spyder.
+
+### The Jupyter Notebook
+
+To run the Jupyter Notebook, follow steps one and two described above. You can then simply open B-AMA_protocol_TS_forecasting_ML.ipynb and execute the protocol step by step.
+
 
 ## Additional Information
 - **Manuscript**: You can find more information about the methodology, validation, and applications of the software in the following publication:
